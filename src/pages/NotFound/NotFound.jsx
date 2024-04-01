@@ -5,7 +5,7 @@ export default function NotFound() {
   return (
     <>
       <div>NotFound</div>
-      <p>get out of here bitch</p>
+      <p>get out of here</p>
     </>
   );
 }
