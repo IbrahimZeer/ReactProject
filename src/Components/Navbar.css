@@ -1,0 +1,9 @@
+.nav-link.active {
+  border-bottom: 2px solid teal;
+}
+
+.left {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
