@@ -1,26 +1,44 @@
-/* eslint-disable no-unused-vars */
-import React, { useEffect, useState } from "react";
+import axios from "axios";
+import { useEffect, useState } from "react";
+// import "./App.css";
 
-export default function Categories() {
-  const [products, setProducts] = useState(getCategories);
-
+function App() {
+  // create loader as useState
+  const [loader, setLoader] = useState(true);
+  const [categories, setCategories] = useState([]);
+  const [err, setErr] = useState(``);
   const getCategories = async () => {
-    const res = await fetch(
-      `https://ecommerce-node4.vercel.app/categories/active?page=1&limit=10`
-    );
-    const data = await res.json();
-    console.log(data);
-    setProducts(data.categories);
+    try {
+      const { data } = await axios.get(
+        `${import.meta.env.VITE_API_URL}/categories/active?limit=10`
+      );
+      setCategories(data.categories);
+      setLoader(false);
+      setErr("");
+    } catch {
+      console.log(`something went wrong!`);
+      setErr(`error to load data`);
+      setLoader(false);
+    }
   };
-
   useEffect(() => {
-    console.log(`hello from category`);
+    getCategories();
   }, []);
+
+  if (loader) {
+    return <p>Loading...</p>;
+  }
   return (
     <>
-      {products.map((prod) => {
-        <h2>{prod.name}</h2>;
-      })}
+      {err ? <span>{err}</span> : null}
+      {categories.map((cat) => (
+        <div className="products" key={cat.id}>
+          <h2>{cat.name}</h2>
+          <img src={cat.image["secure_url"]} />
+        </div>
+      ))}
     </>
   );
 }
+
+export default App;
