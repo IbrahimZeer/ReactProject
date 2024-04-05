@@ -1,6 +1,7 @@
 /* eslint-disable no-unused-vars */
 import React, { useState } from "react";
 import { object, string } from "yup";
+import style from "./Signup.module.css";
 import axios from "axios";
 
 export default function Signup() {
@@ -22,10 +23,10 @@ export default function Signup() {
   };
 
   const handleImageChanges = (e) => {
-    const { name, file } = e.target;
+    const { name, files } = e.target;
     setUser({
       ...user,
-      [name]: file[0],
+      [name]: files[0],
     });
   };
 
@@ -33,7 +34,7 @@ export default function Signup() {
     const RegSchema = object({
       userName: string().min(5).max(20).required(),
       email: string().email().required(),
-      password: string().min(8).max(20).required(),
+      password: string().min(8).required(),
       image: string(),
     });
 
@@ -48,13 +49,14 @@ export default function Signup() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const validate = await validationData();
+    if (!validate) return;
     const formData = new FormData();
     formData.append("userName", user.userName);
     formData.append("email", user.email);
     formData.append("password", user.password);
     formData.append("image", user.image);
     const { data } = axios.post(
-      `${import.meta.env.VITE_API_URL}/auth/ignup`,
+      `${import.meta.env.VITE_API_URL}/auth/signup`,
       formData
     );
     setUser({
@@ -68,10 +70,14 @@ export default function Signup() {
     <>
       <h2>Register Page</h2>
       {error.length > 0
-        ? error.map((err) => <span key={err.id}>{err}</span>)
+        ? error.map((err) => (
+            <span className={style.errMessages} key={err.id}>
+              {err}
+            </span>
+          ))
         : ""}
 
-      <form action="" onSubmit={handleSubmit}>
+      <form className={style.formFormat} onSubmit={handleSubmit}>
         <label htmlFor="">user name</label>
         <input
           type="text"
@@ -97,12 +103,7 @@ export default function Signup() {
         />
 
         <label htmlFor="">image</label>
-        <input
-          type="file"
-          value={user.image}
-          name="image"
-          onChange={handleImageChanges}
-        />
+        <input type="file" name="image" onChange={handleImageChanges} />
 
         <button type="submit">Submit</button>
       </form>
