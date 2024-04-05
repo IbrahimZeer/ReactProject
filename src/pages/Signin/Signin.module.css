@@ -1,0 +1,16 @@
+.errMessages {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  color: red;
+  align-items: center;
+  background-color: gray;
+}
+
+.formFormat {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+  align-items: center;
+  background-color: gray;
+}

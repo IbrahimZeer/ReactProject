@@ -30,7 +30,7 @@ export default function Signup() {
     });
   };
 
-  const validationData = async (e) => {
+  const validationData = async () => {
     const RegSchema = object({
       userName: string().min(5).max(20).required(),
       email: string().email().required(),
@@ -48,23 +48,23 @@ export default function Signup() {
   };
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const validate = await validationData();
-    if (!validate) return;
-    const formData = new FormData();
-    formData.append("userName", user.userName);
-    formData.append("email", user.email);
-    formData.append("password", user.password);
-    formData.append("image", user.image);
-    const { data } = axios.post(
-      `${import.meta.env.VITE_API_URL}/auth/signup`,
-      formData
-    );
-    setUser({
-      userName: "",
-      email: "",
-      password: "",
-      image: "",
-    });
+    if (await validationData()) {
+      const formData = new FormData();
+      formData.append("userName", user.userName);
+      formData.append("email", user.email);
+      formData.append("password", user.password);
+      formData.append("image", user.image);
+      const { data } = axios.post(
+        `${import.meta.env.VITE_API_URL}/auth/signup`,
+        formData
+      );
+      setUser({
+        userName: "",
+        email: "",
+        password: "",
+        image: "",
+      });
+    }
   };
   return (
     <>
