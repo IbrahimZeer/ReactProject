@@ -1,5 +1,6 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 // import "./App.css";
 
 function App() {
@@ -33,8 +34,10 @@ function App() {
       {err ? <span>{err}</span> : null}
       {categories.map((cat) => (
         <div className="products" key={cat.id}>
-          <h2>{cat.name}</h2>
-          <img src={cat.image["secure_url"]} />
+          <Link to={`/products/${cat.id}`}>
+            <h2>{cat.name}</h2>
+            <img src={cat.image["secure_url"]} />
+          </Link>
         </div>
       ))}
     </>

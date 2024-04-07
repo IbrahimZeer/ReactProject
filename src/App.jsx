@@ -5,6 +5,7 @@ import Signup from "./pages/Signup/Signup";
 import Categories from "./pages/Categories/Categories";
 import Products from "./pages/Products/Products";
 import Cart from "./pages/Cart/Cart";
+import CatProducts from "./pages/Products/CatProducts.jsx";
 import Root from "./routes/Root";
 import NotFound from "./pages/NotFound/NotFound";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
@@ -35,6 +36,10 @@ const router = createBrowserRouter([
       {
         path: "products",
         element: <Products />,
+      },
+      {
+        path: "products/:id",
+        element: <CatProducts />,
       },
       {
         path: "cart",
